@@ -1,0 +1,69 @@
+apply plugin: 'com.android.application'
+
+android {
+    namespace 'com.deepseek.coder'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId "com.deepseek.coder"
+        minSdk 24
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+
+        ndk {
+            abiFilters 'arm64-v8a', 'x86_64'
+        }
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("../deepseek.keystore")
+            storePassword "deepseek123"
+            keyAlias "deepseek"
+            keyPassword "deepseek123"
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
+        release {
+            minifyEnabled false
+            shrinkResources false
+            signingConfig signingConfigs.release
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+        encoding "UTF-8"
+    }
+
+    packaging {
+        jniLibs {
+            useLegacyPackaging = true
+            keepDebugSymbols.add("**/libdcroot.so")
+        }
+    }
+
+    lint {
+        abortOnError false
+        checkReleaseBuilds false
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = "UTF-8"
+}
+
+def buildNative = tasks.register('buildNative', Exec) {
+    workingDir rootProject.projectDir
+    commandLine 'powershell', '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', 'build-native.ps1'
+}
+
+tasks.named('preBuild').configure {
+    dependsOn buildNative
+}

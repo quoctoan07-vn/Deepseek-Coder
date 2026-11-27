@@ -1,0 +1,12 @@
+DeepSeek Coder - third-party notices
+
+DeepSeek whale logo
+Copyright (c) 2023 DeepSeek
+Licensed under the MIT License.
+
+Source:
+https://github.com/deepseek-ai/DeepSeek-Coder-V2/blob/main/figures/logo.svg
+
+The MIT license permits use, copy, modification and distribution of the logo
+asset. DeepSeek and the DeepSeek logo are trademarks of DeepSeek. This project
+is an independent build and is not affiliated with or endorsed by DeepSeek.
